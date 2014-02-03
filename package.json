@@ -21,6 +21,7 @@
   "dependencies": {
     "class-wolperting": "~0.0.4",
     "nodemailer": "~0.6.0",
-    "html-to-text": "0.0.7"
+    "html-to-text": "0.0.7",
+    "jade": "~1.1.5"
   }
 }
