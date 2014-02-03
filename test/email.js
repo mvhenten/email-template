@@ -1,6 +1,8 @@
 'use strict';
 
 var Email = require('../lib/email'),
+    _ = require('lodash'),
+    Mock = require('mock-nodemailer'),
     diff = require('assert-diff'),
     assert = require('assert'),
     Faker = require('Faker');
@@ -47,4 +49,19 @@ suite(__filename, function() {
             done();
         });
     });
+
+    test('Email.Transport invokes nodemailer', function(done) {
+        var args = {
+            from: Faker.Internet.email(),
+            to: Faker.Internet.email(),
+            words: Faker.Lorem.words(),
+            subject: Faker.Lorem.sentence()
+        };
+
+        Mock.expectEmail(args, done);
+
+        var ts = Email.Transport();
+        ts.send(args, _.noop);
+    });
+
 });
