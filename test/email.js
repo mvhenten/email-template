@@ -2,6 +2,7 @@
 
 var Email = require('../lib/email'),
     _ = require('lodash'),
+    fs = require('fs'),
     Mock = require('mock-nodemailer'),
     diff = require('assert-diff'),
     assert = require('assert'),
@@ -62,6 +63,34 @@ suite(__filename, function() {
 
         var ts = Email.Transport();
         ts.send(args, _.noop);
+    });
+
+    test('Email.Template.Swig returns swig renderer', function(done) {
+        var words = Faker.Lorem.words(),
+            path = __dirname + '/' + Date.now().toString(36);
+
+        fs.writeFileSync(path, '<b>{{ words|smurf }}</b>');
+
+        var tpl = Email.Template.Swig({
+            filters: {
+                smurf: function(str) {
+                    return str.replace(/\w+/g, 'smurf');
+                }
+            }
+        });
+
+        tpl.render(path, {
+            words: words.join(', ')
+        }, function(err, html) {
+            var smurfs = _.times(words.length, function() {
+                return 'smurf';
+            });
+
+            assert.equal(html, '<b>' + smurfs.join(', ') + '</b>');
+            fs.unlinkSync(path);
+            done();
+        });
+
     });
 
 });
