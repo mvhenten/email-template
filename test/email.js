@@ -93,4 +93,27 @@ suite(__filename, function() {
 
     });
 
+    test('Email.Template.Jade returns jade renderer', function(done) {
+        var words = "smurf, smurf, smurf", // Faker.Lorem.words(),
+            path = __dirname + '/' + Date.now().toString(36);
+
+        var filters = require('jade').filters;
+
+        filters.smurf = function(str){
+	    return str.replace(/\w+/g, 'smurf');
+	};
+
+        fs.writeFileSync(path, 'b #{words}');
+
+        var tpl = Email.Template.Jade({ filters: filters });
+
+        tpl.render(path, {
+            words: words,
+        }, function(err, html) {
+            assert.equal(html, '<b>' + words + '</b>');
+            fs.unlinkSync(path);
+            done();
+        });
+    });
+
 });
