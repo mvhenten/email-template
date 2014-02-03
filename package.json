@@ -1,8 +1,8 @@
 {
-    "name": "consolidate-email",
+    "name": "email-template",
     "version": "0.0.1",
-    "description": "Wrap consolidate and nodemailer to create beautiful emails",
-    "main": "index.js",
+    "description": "Wrapper around various templating engines and node-mailer",
+    "main": "./lib/email.js",
     "scripts": {
         "test": "mocha test/*"
     },
@@ -13,4 +13,7 @@
         "js-beautify": "~1.4.2",
         "jshint": "~2.4.2"
     },
+    "dependencies": {
+        "class-wolperting": "0.0.3"
+    }
 }
