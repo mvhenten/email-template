@@ -14,7 +14,9 @@
         "jshint": "~2.4.2",
         "mocha": "~1.17.1",
         "Faker": "~0.5.11",
-        "assert-diff": "0.0.4"
+        "assert-diff": "0.0.4",
+        "mock-nodemailer": "0.0.1",
+        "lodash": "~2.4.1"
     },
     "dependencies": {
         "class-wolperting": "~0.0.4",
