@@ -94,23 +94,27 @@ suite(__filename, function() {
     });
 
     test('Email.Template.Jade returns jade renderer', function(done) {
-        var words = "smurf, smurf, smurf", // Faker.Lorem.words(),
+        var words = Faker.Lorem.words(),
+            smurfs = _.times(words.length, function() {
+                return 'smurf';
+            }),
+            expect = '<b>' + smurfs.join(', ') + '</b>',
             path = __dirname + '/' + Date.now().toString(36);
 
-        var filters = require('jade').filters;
+        var tpl = Email.Template.Jade({
+            mixins: {
+                smurf: function(str) {
+                    return str.replace(/\w+/g, 'smurf');
+                }
+            }
+        });
 
-        filters.smurf = function(str){
-	    return str.replace(/\w+/g, 'smurf');
-	};
-
-        fs.writeFileSync(path, 'b #{words}');
-
-        var tpl = Email.Template.Jade({ filters: filters });
+        fs.writeFileSync(path, 'b\n\t=smurf(words)');
 
         tpl.render(path, {
-            words: words,
+            words: words.join(', ')
         }, function(err, html) {
-            assert.equal(html, '<b>' + words + '</b>');
+            assert.equal(html, expect);
             fs.unlinkSync(path);
             done();
         });
