@@ -1,69 +1,67 @@
-email-peryton
-=============
-### Simply wrap various templating libs and node-mailer into a single package for ease of reuse
+# peryton
 
+A simple API to send emails formatted with various templating libs.
+
+This module also wraps [nodemailer](http://www.nodemailer.com/), making e-mail sending easy. 
 [![Build Status](https://drone.io/github.com/mvhenten/peryton/status.png)](https://drone.io/github.com/mvhenten/peryton/latest)
 
-Introduction
-------------
+nodemailer transport, provide a link ), and what the arguments to Template are
 
-These are the templating systems supported: 
+# Templating engines
 
-- [Swig](https://github.com/paularmstrong/swig)
-- [Jade](https://github.com/visionmedia/jade)
+The following templating engines are supported. The dependencies listed are required in order to run them along with this library. 
 
-Examples
---------
+- [swig](http://paularmstrong.github.io/swig/), ```npm install swig --save```, [https://github.com/paularmstrong/swig/](https://github.com/paularmstrong/swig/)
+- [jade](http://jade-lang.com/), ```npm install jade --save```, [https://github.com/visionmedia/jade](https://github.com/visionmedia/jade)
 
-##### Swig
+# API
 
-```javascript
-    var Email = require('peryton'),
-        email = Email.create({
-        template: 'file.html',
-        transport: Email.Transport({
-            service: 'SES',
-            auth: CONFIG.AmazonSES
-        }),
-        engine: Email.Swig({
-            config: {
-                cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
-            },
+##### swig
 
-            filters: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
-        }),
-    });
+The following example illustrates how to use ```peryton``` with ```swig``` template engine.
 
-
-    email.send( to, from, subject, locals, function( err, email ){
-        // check err
-        // etc.
-    });
-```
-
-##### Jade
+For ```swig``` it's also possible to define [filters](http://paularmstrong.github.io/swig/docs/filters/):
 
 ```javascript
     var Email = require('peryton'),
         email = Email.create({
-        template: 'file.jade',
-        transport: Email.Transport({
-            service: 'SES',
-            auth: CONFIG.AmazonSES
-        }),
-        engine: Email.Jade({
-            config: {
-                cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
-            },
-
-            mixins: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
-        }),
-    });
-
+            // route to your template file
+            template: 'file.html',
+            // before you can send any e-mails you need to set up a transport method
+            transport: Email.Transport({
+                service: 'Gmail', 
+           	auth: { 
+                    username: "username@gmail.com", 
+                    password: "yourpassword" 
+                }
+	    }),
+            // use swig
+            engine: Email.Swig({
+                config: {
+                    cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
+                },
+		// define custom filters
+                filters: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
+            }),
+        });
 
     email.send( to, from, subject, locals, function( err, email ){
-        // check err
-        // etc.
+        // return callback gets two parameters: err, mail
     });
 ```
+
+##### jade
+
+In the case of ```jade```, you will need to define your [mixins](http://jade-lang.com/reference/#mixins):
+
+```javascript
+   engine: Email.Jade({
+	config: {
+	    cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
+	},
+        // define custom mixins
+	mixins: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
+    })
+```
+
 
