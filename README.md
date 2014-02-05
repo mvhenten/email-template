@@ -1,5 +1,5 @@
-E-mail template
-===============
+email-peryton
+=============
 
 Simply wrap various templating libs and node-mailer into a single package for ease of reuse
 
