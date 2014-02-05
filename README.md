@@ -9,8 +9,8 @@ Introduction
 
 These are the templating systems supported: 
 
-- (Swig)[https://github.com/paularmstrong/swig] 
-- (Jade)[]
+- [Swig](https://github.com/paularmstrong/swig)
+- [Jade](https://github.com/visionmedia/jade)
 
 Examples
 --------
