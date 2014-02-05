@@ -15,6 +15,7 @@ These are the templating systems supported:
 Examples
 --------
 
+##### Swig
 
 ```javascript
     var Email = require('peryton'),
@@ -30,6 +31,32 @@ Examples
             },
 
             filters: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
+        }),
+    });
+
+
+    email.send( to, from, subject, locals, function( err, email ){
+        // check err
+        // etc.
+    });
+```
+
+##### Jade
+
+```javascript
+    var Email = require('peryton'),
+        email = Email.create({
+        template: 'file.jade',
+        transport: Email.Transport({
+            service: 'SES',
+            auth: CONFIG.AmazonSES
+        }),
+        engine: Email.Jade({
+            config: {
+                cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
+            },
+
+            mixins: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
         }),
     });
 
