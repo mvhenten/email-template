@@ -1,8 +1,9 @@
 # peryton
 
-A simple API to send emails formatted with various templating libs.
+*A simple API to send emails formatted with various templating libs.*
 
 This module also wraps [nodemailer](http://www.nodemailer.com/), making e-mail sending easy. 
+
 [![Build Status](https://drone.io/github.com/mvhenten/peryton/status.png)](https://drone.io/github.com/mvhenten/peryton/latest)
 
 nodemailer transport, provide a link ), and what the arguments to Template are
@@ -20,7 +21,7 @@ The following templating engines are supported. The dependencies listed are requ
 
 The following example illustrates how to use ```peryton``` with ```swig``` template engine.
 
-For ```swig``` it's also possible to define [filters](http://paularmstrong.github.io/swig/docs/filters/):
+For ```swig``` it's also possible to define custom [filters](http://paularmstrong.github.io/swig/docs/filters/):
 
 ```javascript
     var Email = require('peryton'),
@@ -40,8 +41,12 @@ For ```swig``` it's also possible to define [filters](http://paularmstrong.githu
                 config: {
                     cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
                 },
-		// define custom filters
-                filters: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
+                // define custom filters
+                filters: { 
+                    smurf: function(str){ 
+                        return str.replace(/\w+/g,'smurf') 
+                    } 
+                }
             }),
         });
 
@@ -55,13 +60,23 @@ For ```swig``` it's also possible to define [filters](http://paularmstrong.githu
 In the case of ```jade```, you will need to define your [mixins](http://jade-lang.com/reference/#mixins):
 
 ```javascript
-   engine: Email.Jade({
-	config: {
-	    cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
-	},
-        // define custom mixins
-	mixins: { smurf: function(str){ return str.replace(/\w+/g,'smurf') } }
-    })
+engine: Email.Jade({
+    config: {
+        cache: process.env['NODE_ENV'] === 'production' ? 'memory' : false,
+    },
+    // define custom mixins
+    mixins: { 
+       smurf: function(str){ 
+           return str.replace(/\w+/g,'smurf') 
+       } 
+    }
+})
 ```
+# Install
 
+The source is available for download from [GitHub](https://github.com/mvhenten/peryton). Alternatively, you can install using Node Package Manager (npm):
+
+```
+npm install peryton --save
+```
 
