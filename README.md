@@ -15,8 +15,10 @@ These are the templating systems supported:
 Examples
 --------
 
+
 ```javascript
-    var email = Email.create({
+    var Email = require('peryton'),
+        email = Email.create({
         template: 'file.html',
         transport: Email.Transport({
             service: 'SES',
@@ -37,3 +39,4 @@ Examples
         // etc.
     });
 ```
+
