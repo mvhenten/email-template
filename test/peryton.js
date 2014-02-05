@@ -1,6 +1,6 @@
 'use strict';
 
-var Email = require('../lib/email'),
+var Email = require('../lib/peryton'),
     _ = require('lodash'),
     fs = require('fs'),
     Mock = require('mock-nodemailer'),
@@ -67,6 +67,10 @@ suite(__filename, function() {
 
     test('Email.Template.Swig returns swig renderer', function(done) {
         var words = Faker.Lorem.words(),
+            smurfs = _.times(words.length, function() {
+                return 'smurf';
+            }),
+            expect = '<b>' + smurfs.join(', ') + '</b>',
             path = __dirname + '/' + Date.now().toString(36);
 
         fs.writeFileSync(path, '<b>{{ words|smurf }}</b>');
@@ -82,11 +86,7 @@ suite(__filename, function() {
         tpl.render(path, {
             words: words.join(', ')
         }, function(err, html) {
-            var smurfs = _.times(words.length, function() {
-                return 'smurf';
-            });
-
-            assert.equal(html, '<b>' + smurfs.join(', ') + '</b>');
+            assert.equal(html, expect);
             fs.unlinkSync(path);
             done();
         });
@@ -101,6 +101,8 @@ suite(__filename, function() {
             expect = '<b>' + smurfs.join(', ') + '</b>',
             path = __dirname + '/' + Date.now().toString(36);
 
+        fs.writeFileSync(path, 'b\n\t=smurf(words)');
+
         var tpl = Email.Template.Jade({
             mixins: {
                 smurf: function(str) {
@@ -108,8 +110,6 @@ suite(__filename, function() {
                 }
             }
         });
-
-        fs.writeFileSync(path, 'b\n\t=smurf(words)');
 
         tpl.render(path, {
             words: words.join(', ')
