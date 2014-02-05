@@ -1,10 +1,21 @@
 email-peryton
 =============
+### Simply wrap various templating libs and node-mailer into a single package for ease of reuse
 
-Simply wrap various templating libs and node-mailer into a single package for ease of reuse
+[![Build Status](https://drone.io/github.com/mvhenten/peryton/status.png)](https://drone.io/github.com/mvhenten/peryton/latest)
 
-Example:
+Introduction
+------------
 
+These are the templating systems supported: 
+
+- (Swig)[https://github.com/paularmstrong/swig] 
+- (Jade)[]
+
+Examples
+--------
+
+```javascript
     var email = Email.create({
         template: 'file.html',
         transport: Email.Transport({
@@ -25,3 +36,4 @@ Example:
         // check err
         // etc.
     });
+```
