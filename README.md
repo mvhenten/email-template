@@ -6,8 +6,6 @@ This module also wraps [nodemailer](http://www.nodemailer.com/), making e-mail s
 
 [![Build Status](https://drone.io/github.com/mvhenten/peryton/status.png)](https://drone.io/github.com/mvhenten/peryton/latest)
 
-nodemailer transport, provide a link ), and what the arguments to Template are
-
 # Templating engines
 
 The following templating engines are supported. The dependencies listed are required in order to run them along with this library. 
