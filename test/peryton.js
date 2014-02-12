@@ -93,6 +93,31 @@ suite(__filename, function() {
 
     });
 
+    test('Email.Template.Swig accepts tags', function(done) {
+        var tags = require('swig-extras').tags;
+
+
+        var words = Faker.Lorem.words(),
+            expect = '<p><strong>' + words.join(', ') + '</strong></p>',
+            path = __dirname + '/' + Date.now().toString(36);
+
+        fs.writeFileSync(path, '{% markdown %}**{{ words }}**{% endmarkdown %}');
+
+        var tpl = Email.Template.Swig({
+            tags: tags
+        });
+
+        tpl.render(path, {
+            words: words.join(', ')
+        }, function(err, html) {
+            assert.equal(html, expect);
+            fs.unlinkSync(path);
+            done();
+        });
+
+    });
+
+
     test('Email.Template.Jade returns jade renderer', function(done) {
         var words = Faker.Lorem.words(),
             smurfs = _.times(words.length, function() {
